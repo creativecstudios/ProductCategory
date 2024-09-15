@@ -1,6 +1,7 @@
 package org.ccs.productcategoryservice.service;
 
 import org.ccs.productcategoryservice.dto.FakeStoreProductDto;
+import org.ccs.productcategoryservice.exceptions.ProductNotFoundException;
 import org.ccs.productcategoryservice.models.Category;
 import org.ccs.productcategoryservice.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class ProductServiceImplementation implements ProductServiceProvider{
     }
 
     @Override
-    public Product getProductById(Long id) {
+    public Product getProductById(Long id) throws ProductNotFoundException {
         RestTemplate restTemplate = restTemplateBuilder.build();
         ResponseEntity<FakeStoreProductDto> fakeStoreProductDtoResponseEntity = restTemplate
                 .getForEntity("https://fakestoreapi.com/products/{id}", FakeStoreProductDto.class,id);
@@ -33,7 +34,10 @@ public class ProductServiceImplementation implements ProductServiceProvider{
                 fakeStoreProductDto != null){
                 return from(fakeStoreProductDto);
         }
-        return null;
+        else if(fakeStoreProductDto == null){
+            throw new ProductNotFoundException(id,"Product with id "+id+" not fount");
+        }
+        return from(fakeStoreProductDto);
     }
 
     @Override
