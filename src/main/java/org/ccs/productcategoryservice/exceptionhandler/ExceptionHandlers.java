@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ExceptionHandlers {
 
-    @ExceptionHandler
+    @ExceptionHandler(ArithmeticException.class)
     public ResponseEntity<ExceptionDto> handleArithmeticException(){
         ExceptionDto exceptionDto = new ExceptionDto();
         exceptionDto.setMessage("Something Went wrong");
         return new ResponseEntity<>(exceptionDto, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(ProductNotFoundException.class)
     public ResponseEntity<ProductNotFoundExceptionDto> productNotFoundException(ProductNotFoundException exception){
         ProductNotFoundExceptionDto productNotFoundExceptionDto = new ProductNotFoundExceptionDto();
         productNotFoundExceptionDto.setMessage("Product with id "+ exception.getId()+" not found");
