@@ -12,9 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Optional;
 
-@Service
-public class ProductServiceImplementation implements ProductServiceProvider{
+@Service("ThirdPartyApiProductService")
+public class ThirdPartyApiProductServiceImplementation implements ProductServiceProvider{
 
     @Autowired
     private RestTemplateBuilder restTemplateBuilder;
